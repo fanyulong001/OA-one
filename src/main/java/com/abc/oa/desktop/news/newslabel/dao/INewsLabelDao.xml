@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.abc.oa.desktop.news.newslabel.dao.INewsLabelDao">
+
+    <select id="selectAllCount" resultType="int">
+        select count(*) from newlabel; <!--查询表newLabel的行数-->
+    </select>
+
+    <!---->
+    <select id="selectParentById" resultType="NewsLabel">
+        select id,label_name,label_content,pid from newlabel where id=#{pid}
+    </select>
+
+    <!---->
+    <resultMap id="newsLabelMap" type="NewsLabel">
+        <id column="id" property="id"/>
+        <association property="parent"
+                     javaType="NewsLabel"
+                     select="selectParentById"
+                     column="pid"/>
+    </resultMap>
+
+    <!---->
+    <select id="selectCurrentPageNeNewLabels" resultMap="newsLabelMap">
+        select id,label_name,label_content,pid from newlabel limit #{pageStartIndex},#{pageSize}
+    </select>
+
+    <!---->
+    <delete id="deleteCurrent" >
+        delete from newlabel where id=#{id}
+    </delete>
+
+    <!---->
+    <resultMap id="selectNewsLabelMap" type="NewsLabel">
+        <id column="id" property="id"/>
+        <association property="parent"
+                     javaType="NewsLabel"
+                     select="selectParentById"
+                     column="pid"/>
+    </resultMap>
+
+    <!---->
+    <select id="selectCurrent" resultMap="selectNewsLabelMap">
+        select id,label_name,label_content,pid
+        from newlabel where id=#{id}
+    </select>
+
+    <!---->
+    <select id="selectCurrentId" resultType="NewsLabel">
+        select id,label_name,label_content,pid
+        from newlabel where pid="" or pid IS NULL
+    </select>
+
+    <!---->
+    <update id="updateCurrent" >
+        update newlabel
+        set label_name=#{label_name},label_content=#{label_content},pid=#{parent.id}
+        where id=#{id}
+    </update>
+
+    <!---->
+    <insert id="insertCurrent">
+        insert
+        into newlabel(label_name,label_content,pid)
+        values (#{label_name},#{label_content},#{parent.id})
+    </insert>
+
+    <!---->
+    <resultMap id="pidNewsLabelMap" type="NewsLabel">
+        <id column="id" property="id"/>
+        <association property="parent"
+                     javaType="NewsLabel"
+                     select="selectParentById"
+                     column="pid"/>
+    </resultMap>
+
+    <!---->
+    <select id="pidSelectCurrentRecord" resultMap="pidNewsLabelMap">
+        select id,label_name,label_content,pid
+        from newlabel
+        where pid=#{pid}
+    </select>
+
+</mapper>
