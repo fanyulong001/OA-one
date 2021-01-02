@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<!--mapper映射文件-->
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
@@ -13,7 +14,7 @@
         select id,label_name,label_content,pid from newlabel where id=#{pid}
     </select>
 
-    <!---->
+    <!--它描述如何从结果集中加载对象-->
     <resultMap id="newsLabelMap" type="NewsLabel">
         <id column="id" property="id"/>
         <association property="parent"
@@ -43,28 +44,22 @@
 
     <!---->
     <select id="selectCurrent" resultMap="selectNewsLabelMap">
-        select id,label_name,label_content,pid
-        from newlabel where id=#{id}
+        select id,label_name,label_content,pid from newlabel where id=#{id}
     </select>
 
     <!---->
     <select id="selectCurrentId" resultType="NewsLabel">
-        select id,label_name,label_content,pid
-        from newlabel where pid="" or pid IS NULL
+        select id,label_name,label_content,pid from newlabel where pid="" or pid IS NULL
     </select>
 
     <!---->
     <update id="updateCurrent" >
-        update newlabel
-        set label_name=#{label_name},label_content=#{label_content},pid=#{parent.id}
-        where id=#{id}
+        update newlabel set label_name=#{label_name},label_content=#{label_content},pid=#{parent.id} where id=#{id}
     </update>
 
     <!---->
     <insert id="insertCurrent">
-        insert
-        into newlabel(label_name,label_content,pid)
-        values (#{label_name},#{label_content},#{parent.id})
+        insert into newlabel(label_name,label_content,pid) values (#{label_name},#{label_content},#{parent.id})
     </insert>
 
     <!---->
@@ -78,9 +73,7 @@
 
     <!---->
     <select id="pidSelectCurrentRecord" resultMap="pidNewsLabelMap">
-        select id,label_name,label_content,pid
-        from newlabel
-        where pid=#{pid}
+        select id,label_name,label_content,pid from newlabel where pid=#{pid}
     </select>
 
 </mapper>

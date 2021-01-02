@@ -22,9 +22,11 @@ public class NewsLabelHandler {
     //@RequestParam用来映射参数，方便后端收集前端传来的参数。当方法参数的类型为基本类型（包括它们的封装类型）和String类型时,
     // @RequestParam可省略不写，SpringMVC可以自己完成映射。
     public String queryNewsLabel(@RequestParam(defaultValue = "1") int pageno , Model model){
-        Page<NewsLabel> page=service.findCurrentPage(pageno);
+        //我们最后把每一页查询到的数据放在一个page对象里，page里放的是NewsLabel对象
+        Page<NewsLabel> page=service.findCurrentPage(pageno);  //findCurrentPage方法表示查询当前页面
         Page<NewsLabel> page2=service.selectCurrentRecordId();
-        for(NewsLabel nl:page.getDatas()){
+
+        for(NewsLabel nl:page.getDatas()){ //
             System.out.println(nl);
         }
         model.addAttribute("page",page);

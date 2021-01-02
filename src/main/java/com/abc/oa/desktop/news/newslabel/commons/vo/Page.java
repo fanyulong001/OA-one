@@ -2,8 +2,14 @@ package com.abc.oa.desktop.news.newslabel.commons.vo;
 
 import java.util.ArrayList;
 import java.util.List;
+//Page类放到vo中的原因：page类是个值对象，不是封装数据库里的数据，负责再Java代码中把Java代码中的数据传递到jsp页面上
 
-//Page是VO对象，完成java类与jsp页面之间类的传递
+//Page是VO（value object）对象，完成java类与jsp页面的数据传递
+
+//Page对象用来封装每一页查询到的数据，再通过转发在页面上显示
+
+//它和实体类不一样，实体类是用来封装数据库里查询到的数据
+
 public class Page<T> {      //分页，加泛型原因：为了保证page对象的通融性，即提高通用性
     private int pageno;     //当前页的页码
     private int pageStartIndex;     //当前页的起始索引
